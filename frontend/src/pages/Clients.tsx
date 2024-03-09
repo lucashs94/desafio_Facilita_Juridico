@@ -44,12 +44,12 @@ export function Client() {
 
       <RouteDialog />
 
-      <main className="flex-1 overflow-auto p-4 md:p-6">
+      <main className="flex-1 p-4 md:p-6">
         <div className="w-full max-w-6xl mx-auto grid gap-4">
           <div className="border rounded-lg">
             <Search />
           </div>
-          <div className="border rounded-lg">
+          <div className="border rounded-lg max-h-[600px] overflow-y-auto">
             {isLoading ? (
               <Spineer />
             ) : clients && clients.length > 0 ? (
