@@ -2,15 +2,17 @@ import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
 } from '@/components/ui/pagination'
 import { useClientStore } from '@/stores/clientStore'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Button } from './ui/button'
 
 export function PaginationComp() {
-  const { changePage } = useClientStore((state) => {
+  const { changePage, page, totalCountClients } = useClientStore((state) => {
     return {
       changePage: state.changePageIndex,
+      page: state.pageIndex,
+      totalCountClients: state.clients?.length,
     }
   })
 
@@ -22,15 +24,34 @@ export function PaginationComp() {
     }
   }
 
+  const disablePrevious = page <= 1
+  const disableNext = page === Math.ceil(totalCountClients! / 10)
+
   return (
-    <Pagination>
+    <Pagination className="justify-end">
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious onClick={() => handleChangePage('D')} />
+          <Button
+            variant={'ghost'}
+            className="flex items-center justify-center gap-2"
+            onClick={() => handleChangePage('D')}
+            disabled={disablePrevious}
+          >
+            <ChevronLeft className="size-4" />
+            Previous
+          </Button>
         </PaginationItem>
 
         <PaginationItem>
-          <PaginationNext onClick={() => handleChangePage('I')} />
+          <Button
+            variant={'ghost'}
+            className="flex items-center justify-center gap-2"
+            onClick={() => handleChangePage('I')}
+            disabled={disableNext}
+          >
+            Next
+            <ChevronRight className="size-4" />
+          </Button>
         </PaginationItem>
       </PaginationContent>
     </Pagination>
