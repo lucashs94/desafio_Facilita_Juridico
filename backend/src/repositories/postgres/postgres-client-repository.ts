@@ -30,19 +30,27 @@ export class ClientRespository implements IClientRepository {
     }
   }
 
-  async findAll() {
+  async findAll(pageIndex = 1) {
     try {
-      const { rows } = await poolDB.query(`SELECT * FROM clients`)
+      const limit: number = 10
+      const offSet: number = limit * (pageIndex - 1)
+
+      const { rows } = await poolDB.query(
+        `SELECT * FROM clients LIMIT ${limit} OFFSET ${offSet}`
+      )
       return rows
     } catch (error) {
       throw new AppError('Error on insert', 400)
     }
   }
 
-  async findByQuery(q: string) {
+  async findByQuery(q: string, pageIndex = 1) {
     try {
+      const limit: number = 10
+      const offSet: number = limit * (pageIndex - 1)
+
       const { rows } = await poolDB.query(
-        `SELECT * FROM clients WHERE name ILIKE $1 OR email ILIKE $1 OR phone ILIKE $1 OR x::text ILIKE $1 OR y::text ILIKE $1`,
+        `SELECT * FROM clients WHERE name ILIKE $1 OR email ILIKE $1 OR phone ILIKE $1 OR x::text ILIKE $1 OR y::text ILIKE $1 LIMIT ${limit} OFFSET ${offSet}`,
         [`%${q}%`]
       )
       return rows

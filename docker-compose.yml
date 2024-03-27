@@ -1,0 +1,44 @@
+version: '3'
+
+
+services:
+  backend:
+    build: ./backend
+    restart: always
+    ports:
+      - 3333:3333
+    environment:
+      - DATABASE_URL=postgres://docker:docker@database:5432/database
+    depends_on:
+      - database
+    networks:
+      - docker-network
+
+
+  frontend:
+    build: ./frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    networks:
+      - docker-network
+
+
+  database:
+    image: bitnami/postgresql
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=database
+    volumes:
+      - .:/bitnami/postgresql
+    networks:
+      - docker-network
+
+networks:
+  docker-network:

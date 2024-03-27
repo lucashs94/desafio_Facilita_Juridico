@@ -1,4 +1,4 @@
-import { string, z } from 'zod'
+import { z } from 'zod'
 
 export const clientSchema = z.object({
   id: z.string(),
@@ -19,6 +19,7 @@ export const createClientSchema = z.object({
 
 export const findClientSchema = z.object({
   q: z.string().optional(),
+  pageIndex: z.coerce.number().optional(),
 })
 
 export type ClientProps = z.infer<typeof clientSchema>

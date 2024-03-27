@@ -16,9 +16,8 @@ export async function runMigrations() {
         const sql = fs.readFileSync(filePath, 'utf8')
 
         await poolDB.query(sql)
-
-        console.log(chalk.green(`✔ Migração ${file} executada com sucesso!`))
       }
+      console.log(chalk.green(`✔ Migração ${file} executada com sucesso!`))
     }
   } catch (error) {
     console.error('Erro ao executar as migrações:', error)

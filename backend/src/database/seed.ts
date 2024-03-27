@@ -14,7 +14,14 @@ const generateFakeDataArray = () => {
 
 const deleteAllFromClients = async () => {
   try {
-    await poolDB.query(`DELETE FROM clients`)
+    await poolDB.query(`
+      DO $$
+        BEGIN
+            IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'clients') THEN
+              DELETE FROM clients;
+            END IF;
+      END $$;
+    `)
     console.log(chalk.red('✔ Table clients cleaned'))
   } catch (error) {
     console.log(chalk.red('Error on delete table clients lines'))
