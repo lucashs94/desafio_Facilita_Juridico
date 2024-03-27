@@ -5,7 +5,7 @@ import chalk from 'chalk'
 
 export async function runMigrations() {
   try {
-    const migrationsPath = path.join(__dirname, 'migrations')
+    const migrationsPath = path.join('migrations')
 
     const files = fs.readdirSync(migrationsPath)
 

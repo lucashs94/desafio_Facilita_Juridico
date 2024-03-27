@@ -5,9 +5,10 @@
   "main": "server.ts",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsup src",
     "migrate": "tsx src/database/migrate.ts",
     "seed": "tsx src/database/seed.ts",
+    "build": "npm run migrate && npm run seed && tsup src",
+    "start": "node dist/server.js",
     "test": "vitest run",
     "test:watch": "vitest"
   },
