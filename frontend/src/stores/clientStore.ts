@@ -20,6 +20,10 @@ export interface ClientStoreProps {
 
   routeDialogOpen: boolean
 
+  pageIndex: number
+
+  changePageIndex: (type: string) => void
+
   toggleRouteDialog: (state: boolean) => void
 
   add: (data: CreateClientProps) => Promise<void>
@@ -34,6 +38,22 @@ export const useClientStore = create<ClientStoreProps>((set, get) => ({
   isLoading: true,
   routeDialogOpen: false,
 
+  pageIndex: 1,
+
+  changePageIndex: (type) => {
+    const { pageIndex, load } = get()
+
+    if (type === 'I') {
+      set({ pageIndex: pageIndex + 1 })
+      load()
+    }
+
+    if (type === 'D' && pageIndex > 1) {
+      set({ pageIndex: pageIndex - 1 })
+      load()
+    }
+  },
+
   toggleRouteDialog: (state) => {
     if (state) {
       set({ routeDialogOpen: true })
@@ -43,12 +63,16 @@ export const useClientStore = create<ClientStoreProps>((set, get) => ({
   },
 
   load: async (query?: string) => {
+    const { pageIndex } = get()
+
     try {
       if (query !== '' && query !== undefined) {
-        const { data } = await api.get(`/clients?q=${query}`)
+        const { data } = await api.get(
+          `/clients?q=${query}&pageIndex=${pageIndex}`
+        )
         set({ clients: data, isLoading: false })
       } else {
-        const { data } = await api.get('/clients')
+        const { data } = await api.get(`/clients?pageIndex=${pageIndex}`)
         set({ clients: data, isLoading: false })
       }
     } catch (error) {
@@ -69,18 +93,8 @@ export const useClientStore = create<ClientStoreProps>((set, get) => ({
   },
 
   add: async (dataProps: CreateClientProps) => {
-    const { clients } = get()
-
     try {
-      const { data } = await api.post('/clients', { ...dataProps })
-
-      if (clients && clients.length > 0) {
-        const newClients = [...clients, data]
-
-        set({ clients: newClients })
-      } else {
-        set({ clients: [data] })
-      }
+      await api.post('/clients', { ...dataProps })
     } catch (error) {
       throw error
     }
