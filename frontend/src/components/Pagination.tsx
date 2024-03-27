@@ -25,7 +25,7 @@ export function PaginationComp() {
   }
 
   const disablePrevious = page <= 1
-  const disableNext = page === Math.ceil(totalCountClients! / 10)
+  const disableNext = page === Math.round(totalCountClients! / 10)
 
   return (
     <Pagination className="justify-end">
