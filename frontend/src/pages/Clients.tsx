@@ -62,9 +62,7 @@ export function Client() {
               <NotFound />
             )}
           </div>
-          <div className="flex justify-end">
-            <PaginationComp />
-          </div>
+          {clients && clients.length > 0 && <PaginationComp />}
         </div>
       </main>
     </div>
