@@ -105,7 +105,7 @@ http://localhost:5173
 
 ## 🦸 Autor
 
-<a href="https://blog.rocketseat.com.br/author/thiago/">
+<a href="https://lucassilva.me">
  <img style="border-radius: 50%;" src="https://github.com/lucashs94.png" width="100px;" alt=""/>
  <br />
 <!--  <sub><b>Thiago Marinho</b></sub></a> <a href="https://blog.rocketseat.com.br/author/thiago/" title="Rocketseat">🚀</a> -->
